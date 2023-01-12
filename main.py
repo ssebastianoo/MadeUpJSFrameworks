@@ -8,18 +8,16 @@ client = tweepy.Client(config.TWITTER_API["bearer"], config.TWITTER_API["consume
                        config.TWITTER_API["consumer_secret"], config.TWITTER_API["access_token"], config.TWITTER_API["access_secret"])
 
 
-openai.organization = "org-gyjSW9gSmSrtCqT5w4ZG3Cee"
 openai.api_key = config.OPENAI_API_KEY
 
 
-def tweet_():
+def tweet():
     completion = openai.Completion.create(
         engine="text-davinci-003", prompt="Tell me about a blazing fast javascript framework that has just been created by someone from the pop culture that doesn't relate to programming, don't use more than 280 characters", max_tokens=1000)
-    client.create_tweet(text=completion.choices[0].text)
-
-
-def tweet():
-    print('Tweeting...')
+    text = completion.choices[0].text.strip()
+    if text.startswith('.'):
+        text = text[1:].strip()
+    client.create_tweet(text=text)
 
 
 resetted = False
