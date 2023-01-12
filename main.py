@@ -32,7 +32,7 @@ except:
         f.write("0")
 
 while True:
-    if datetime.datetime.now().hour >= 19:
+    if datetime.datetime.now().hour >= 14:
         f = open("published.txt", "r")
         published = f.read()
         f.close()
