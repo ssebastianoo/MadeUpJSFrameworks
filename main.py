@@ -31,6 +31,8 @@ except:
     with open("published.txt", "w") as f:
         f.write("0")
 
+resetted = False
+
 while True:
     if datetime.datetime.now().hour >= 14:
         f = open("published.txt", "r")
