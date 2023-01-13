@@ -13,8 +13,11 @@ openai.api_key = config.OPENAI_API_KEY
 
 def tweet():
     try:
+        prompt = """
+Make a tweet about a blazing fast javascript framework with a random name that doesn't exists made by someone or something famous, that may or may not exists, that has just been created in a funny way, add totally random, fun and useless details, the total length must be less than 280 characters.
+        """
         completion = openai.Completion.create(
-            engine="text-davinci-003", prompt="Tell me about a blazing fast javascript framework that has just been created by some famous person that doesn't relate to programming, don't use more than 280 characters", max_tokens=1000)
+            engine="text-davinci-003", prompt=prompt, max_tokens=1000)
         text = completion.choices[0].text.strip()
         if text.startswith('.'):
             text = text[1:].strip()
