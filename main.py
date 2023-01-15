@@ -47,8 +47,6 @@ while True:
             with open("published.txt", "w") as f:
                 f.write("1")
                 resetted = False
-        else:
-            print(published)
     else:
         if not resetted:
             with open("published.txt", "w") as f:
