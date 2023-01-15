@@ -42,11 +42,13 @@ while True:
         published = f.read()
         f.close()
 
-        if published == "0":
+        if str(published).strip() == "0":
             tweet()
             with open("published.txt", "w") as f:
                 f.write("1")
                 resetted = False
+        else:
+            print(published)
     else:
         if not resetted:
             with open("published.txt", "w") as f:
