@@ -3,6 +3,8 @@ import tweepy
 import datetime
 import time
 import config
+import requests
+import json
 
 client = tweepy.Client(config.TWITTER_API["bearer"], config.TWITTER_API["consumer_key"],
                        config.TWITTER_API["consumer_secret"], config.TWITTER_API["access_token"], config.TWITTER_API["access_secret"])
@@ -10,21 +12,33 @@ client = tweepy.Client(config.TWITTER_API["bearer"], config.TWITTER_API["consume
 
 openai.api_key = config.OPENAI_API_KEY
 
+ses = requests.Session()
+
 
 def tweet():
-    try:
-        prompt = """
+    prompt = """
 Make a tweet about a blazing fast javascript framework with a random name that doesn't exists made by someone or something famous, that may or may not exists, that has just been created in a funny way, add totally random, fun and useless details, the total length must be less than 280 characters.
-        """
-        completion = openai.Completion.create(
-            engine="text-davinci-003", prompt=prompt, max_tokens=1000)
-        text = completion.choices[0].text.strip()
-        if text.startswith('.'):
-            text = text[1:].strip()
+    """
+    completion = openai.Completion.create(
+        engine="text-davinci-003", prompt=prompt, max_tokens=1000)
+    text = completion.choices[0].text.strip()
+    if text.startswith('.'):
+        text = text[1:].strip()
+
+    try:
         client.create_tweet(text=text)
         print("Tweeted!")
     except Exception as e:
         print(e)
+
+    r = ses.post("https://botsin.space/api/v1/statuses", data=json.dumps({"status": text}), headers={
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + config.MASTODON_SECRET
+    })
+    if r.status_code == 200:
+        print("Tooted!")
+    else:
+        print("couldn't toot")
 
 
 try:
@@ -37,7 +51,7 @@ except:
 resetted = False
 
 while True:
-    if datetime.datetime.now().hour >= 14:
+    if datetime.datetime.now().hour >= config.POST_HOUR:
         f = open("published.txt", "r")
         published = f.read()
         f.close()
