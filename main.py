@@ -25,11 +25,17 @@ def tweet():
     if text.startswith('.'):
         text = text[1:].strip()
 
-    try:
-        client.create_tweet(text=text)
-        print("Tweeted!")
-    except Exception as e:
-        print(e)
+    posted = False
+
+    while not posted:
+        try:
+            client.create_tweet(text=text)
+            posted = True
+        except Exception as e:
+            print(e)
+            posted = False
+
+    print("Tweeted!")
 
     r = ses.post("https://botsin.space/api/v1/statuses", data=json.dumps({"status": text}), headers={
         "Content-Type": "application/json",
