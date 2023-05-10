@@ -6,6 +6,11 @@ TWITTER_API = {
     "bearer": "x"
 }
 
+AI = {
+    "url": "",
+    "secret": ""
+}
+
 OPENAI_API_KEY = "x"
 MASTODON_SECRET = "x"
 POST_HOUR = 14
