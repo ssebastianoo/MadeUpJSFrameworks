@@ -1,4 +1,3 @@
-import openai
 import tweepy
 import datetime
 import time
