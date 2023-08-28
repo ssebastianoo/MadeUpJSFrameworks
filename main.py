@@ -14,12 +14,15 @@ ses = requests.Session()
 
 def prompt():
     prompt = """
-        Make a tweet about a blazing fast javascript framework with a random name that doesn't exists made by someone or something famous, that may or may not exists, that has just been created in a funny way, add totally random, fun and useless details, the total length must be less than 280 characters, don't use quotation marks.
+        Write a short text (Max 240 characters) about a new JavaScript framework that has just been created by a famous person in the modern culture.
     """
     res = ses.post(config.AI['url'], data=json.dumps({
         'question': prompt,
-        'secret': config.AI['secret']
-    }))
+    }), headers={
+        "x-secret": config.AI['secret'],
+        "User-Agent": config.AI['User-Agent'],
+        "Origin": config.AI['Origin'],
+    })
 
     if res.status_code != 200:
         return {
@@ -61,7 +64,6 @@ def tweet():
         print("Tooted!")
     else:
         print("couldn't toot")
-
 
 try:
     f = open("published.txt", "r")
