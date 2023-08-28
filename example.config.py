@@ -8,7 +8,9 @@ TWITTER_API = {
 
 AI = {
     "url": "",
-    "secret": ""
+    "secret": "",
+    "User-Agent": "",
+    "Origin": "",
 }
 
 OPENAI_API_KEY = "x"
