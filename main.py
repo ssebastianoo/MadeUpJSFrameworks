@@ -53,6 +53,7 @@ def tweet():
         except Exception as e:
             print(e)
             posted = False
+            time.sleep(20)
 
     print("Tweeted!")
 
